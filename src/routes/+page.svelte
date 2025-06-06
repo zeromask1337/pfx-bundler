@@ -15,7 +15,8 @@ let keyIsValid = $state<null | boolean>(null);
         name="key"
         aria-invalid="false"
         aria-describedby="key-helper"
-        required>
+        required
+>
 </textarea>
 <small id="key-helper">Looks good!</small>
 
@@ -24,6 +25,7 @@ let keyIsValid = $state<null | boolean>(null);
         name="certificate"
         aria-invalid={null}
         aria-describedby="certificate-helper"
-        required>
+        required
+>
 </textarea>
 <small id="certificate-helper">Looks good!</small>
