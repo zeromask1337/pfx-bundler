@@ -1,4 +1,4 @@
-interface PEMValidationResult {
+export interface PEMValidationResult {
         valid: boolean;
         error?: string;
         type?: string;
