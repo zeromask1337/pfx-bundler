@@ -1,61 +1,52 @@
-export interface PEMValidationResult {
-        valid: boolean | null;
-        error?: string;
-        type?: string | null;
+interface ValidationResult {
+        invalid: boolean | null;
+        error: string | null;
 }
 
-export default function validatePEM(input: string): PEMValidationResult {
-        let valid = null
-        const type = ''
-        let error = ''
 
-        // if (!pemString || typeof pemString !== 'string') {
-        //         valid = false
-        //         error = 'Invalid input'
-        // }
-        //
-        // const trimmed: string = pemString().trim();
-        // const lines: string[] = trimmed.split(/\r?\n/);
-        //
-        // if (lines.length < 3) {
-        //         valid = false
-        //         error = 'Too few lines'
-        // }
-        //
-        // // Check header
-        // const headerMatch: RegExpMatchArray | null = lines[0].match(
-        //         /^-----BEGIN ([A-Z\s]+)-----$/,
-        // );
-        // if (!headerMatch) {
-        //         valid = false
-        //         error = 'Invalid header format'
-        // }
-        //
-        // type = headerMatch[1] ?? 0;
-        // const expectedFooter: string = `-----END ${type}-----`;
-        //
-        // // Check footer
-        // if (lines[lines.length - 1] !== expectedFooter) {
-        //         valid = false
-        //         error = 'Header/footer mismatch'
-        // }
-        //
-        // // Validate base64 content
-        // const content: string = lines.slice(1, -1).join('');
-        // const base64Regex: RegExp = /^[A-Za-z0-9+/]*={0,2}$/;
-        //
-        // if (!base64Regex.test(content)) {
-        //         valid = false
-        //         error = 'Invalid base64 content'
-        // }
-        //
-        console.log('Input inside validatePEM is: ', input)
-        if (!input || typeof input !== 'string') {
-                valid = false
-                error = 'Invalid input'
-        } else {
-                valid = true
+export default function validatePEM(value: string): ValidationResult {
+        if (value === "") return { invalid: null, error: null };
+
+        if (typeof value !== "string") {
+                return { invalid: true, error: "Invalid input" };
         }
 
-        return {valid, type, error}
+        const trimmed = value.trim();
+        const lines = trimmed.split(/\r?\n/);
+
+        // Check header
+        const headerMatch = lines[0].match(
+                /^-----BEGIN ([A-Z\s]+)-----$/,
+        );
+        if (!headerMatch) {
+                return {
+                        invalid: true,
+                        error: "Invalid header format",
+                };
+        }
+
+        const type = headerMatch[1];
+        const expectedFooter = `-----END ${type}-----`;
+
+        // Check footer
+        if (lines[lines.length - 1] !== expectedFooter) {
+                return {
+                        invalid: true,
+                        error: "Header/footer mismatch",
+                };
+        }
+
+        // Validate base64 content
+        const content = lines.slice(1, -1).join("");
+        const base64Regex = /^[A-Za-z0-9+/]*={0,2}$/;
+
+        if (!base64Regex.test(content)) {
+                return {
+                        invalid: true,
+                        error: "Invalid base64 content",
+                };
+        }
+
+        return { invalid: false, error: null };
 }
+
