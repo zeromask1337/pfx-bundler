@@ -28,6 +28,12 @@
                   ? keyStatus.error
                   : "Looks good!"}
 </small>
+<button
+        onclick={() =>
+                navigator.clipboard
+                        .readText()
+                        .then((value) => (formData.key = value))}>Paste</button
+>
 
 <textarea
         bind:value={formData.cert}
