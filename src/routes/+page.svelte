@@ -1,21 +1,21 @@
 <script lang="ts">
         import validatePEM from "$lib/validatePEM";
 
-        const formData = $state({
+        const fields = $state({
                 key: "",
                 cert: "",
         });
 
         // Clean derived state using the single validation function
-        let keyStatus = $derived(validatePEM(formData.key));
-        let certStatus = $derived(validatePEM(formData.cert));
+        let keyStatus = $derived(validatePEM(fields.key));
+        let certStatus = $derived(validatePEM(fields.cert));
 </script>
 
 <h1>PEM Builder</h1>
 <p>Pass key and certificate to bundle them into PFX</p>
 
 <textarea
-        bind:value={formData.key}
+        bind:value={fields.key}
         name="key"
         aria-invalid={keyStatus.invalid}
         aria-describedby="key-helper"
@@ -32,11 +32,11 @@
         onclick={() =>
                 navigator.clipboard
                         .readText()
-                        .then((value) => (formData.key = value))}>Paste</button
+                        .then((value) => (fields.key = value))}>Paste</button
 >
 
 <textarea
-        bind:value={formData.cert}
+        bind:value={fields.cert}
         name="certificate"
         aria-invalid={certStatus.invalid}
         aria-describedby="certificate-helper"
