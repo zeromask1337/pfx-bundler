@@ -38,5 +38,6 @@
 
         textarea {
                 min-height: 300px;
+                field-sizing: content;
         }
 </style>
