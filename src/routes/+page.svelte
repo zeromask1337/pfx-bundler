@@ -3,7 +3,7 @@
 
         const fields = $state({
                 key: "",
-                cert: "",
+                certificate: "",
         });
 </script>
 
@@ -11,4 +11,4 @@
 <p>Pass key and certificate to bundle them into PFX</p>
 
 <Textarea name="key" value={fields.key} />
-<Textarea name="cert" value={fields.cert} />
+<Textarea name="certificate" value={fields.certificate} />
