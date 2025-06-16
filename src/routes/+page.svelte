@@ -10,5 +10,15 @@
 <h1>PEM Builder</h1>
 <p>Pass key and certificate to bundle them into PFX</p>
 
-<Textarea name="key" value={fields.key} />
-<Textarea name="certificate" value={fields.certificate} />
+<form action="">
+        <Textarea name="key" value={fields.key} />
+        <Textarea name="certificate" value={fields.certificate} />
+
+        <input type="submit" value="Bundle" />
+</form>
+
+<style>
+        form {
+                width: min(100%, 600px);
+        }
+</style>
