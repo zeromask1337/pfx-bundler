@@ -5,23 +5,27 @@
         let status = $derived(validatePEM(value));
 </script>
 
-<textarea
-        bind:value
-        {name}
-        aria-invalid={status.invalid}
-        aria-describedby="key-helper"
-        required
-></textarea>
-<small id="key-helper">
-        {status.invalid === null
-                ? `Enter your ${name}`
-                : status.invalid
-                  ? status.error
-                  : `${name} looks good!`}
-</small>
+<label
+        >{name}<textarea
+                bind:value
+                {name}
+                aria-invalid={status.invalid}
+                aria-describedby={`${name}-helper`}
+                required
+        ></textarea>
+
+        <small id={`${name}-helper`}>
+                {status.invalid === null
+                        ? null
+                        : status.invalid
+                          ? status.error
+                          : `${name} looks good!`}
+        </small>
+</label>
 <button
         onclick={() =>
                 navigator.clipboard
                         .readText()
-                        .then((newValue) => (value = newValue))}>Paste</button
+                        .then((newValue) => (value = newValue))}
+        >Paste {name}</button
 >
