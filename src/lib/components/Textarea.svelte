@@ -6,9 +6,10 @@
 </script>
 
 <label
-        >{name}<textarea
+        >Enter {name}<textarea
                 bind:value
                 {name}
+                placeholder="Paste your {name}"
                 aria-invalid={status.invalid}
                 aria-describedby={`${name}-helper`}
                 required
@@ -21,11 +22,21 @@
                           ? status.error
                           : `${name} looks good!`}
         </small>
+        <button
+                onclick={() =>
+                        navigator.clipboard
+                                .readText()
+                                .then((newValue) => (value = newValue))}
+                >Paste</button
+        >
 </label>
-<button
-        onclick={() =>
-                navigator.clipboard
-                        .readText()
-                        .then((newValue) => (value = newValue))}
-        >Paste {name}</button
->
+
+<style>
+        label {
+                margin-bottom: 50px;
+        }
+
+        textarea {
+                min-height: 300px;
+        }
+</style>
