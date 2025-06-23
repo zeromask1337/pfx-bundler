@@ -41,5 +41,20 @@ export const GET: RequestHandler = async ({ url }) => {
 
         const [keyFilePath, certificateFilePath] = await createTempFiles([key, certificate])
 
-	return json(data)
+        const command = new Deno.Command("openssl", {
+                args: [
+                        "pkcs12",
+                        "-export",
+                        "-out",
+                        "/tmp/test_bunlder_name.pfx",
+                        "-inkey",
+                        keyFilePath,
+                        "-in",
+                        certificateFilePath
+                ]
+        })
+
+        const {code, stdout, stderr} = await command.output()
+
+	return json({code, stdout: new TextDecoder().decode(stdout), stderr: new TextDecoder().decode(stderr)})
 };
