@@ -23,6 +23,7 @@
                           : `${name} looks good!`}
         </small>
         <button
+                type="button"
                 onclick={() =>
                         navigator.clipboard
                                 .readText()
