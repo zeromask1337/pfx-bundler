@@ -39,7 +39,7 @@ export const GET: RequestHandler = async ({ url }) => {
         const key = validatePEMServer("key", url) 
         const certificate = validatePEMServer("certificate", url) 
 
-        const data = await createTempFiles([key, certificate])
+        const [keyFilePath, certificateFilePath] = await createTempFiles([key, certificate])
 
 	return json(data)
 };
