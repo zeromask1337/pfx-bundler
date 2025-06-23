@@ -10,7 +10,7 @@
 <h1>PEM Builder</h1>
 <p>Pass key and certificate to bundle them into PFX</p>
 
-<form action="">
+<form action="/api/bundle">
         <Textarea name="key" value={fields.key} />
         <Textarea name="certificate" value={fields.certificate} />
 
