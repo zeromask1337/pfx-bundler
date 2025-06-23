@@ -13,9 +13,33 @@ function validatePEMServer(value: string, url: URL) {
         return data
 }
 
-export const GET: RequestHandler = ({ url }) => {
+async function createTempFiles(values: string[]) { const result: string[] = []
+
+        const tempDirPath = await Deno.makeTempDir({
+                prefix: "bundler_",
+                dir: '/tmp'
+        })
+
+        for (const value of values) {
+                const tempFilePath = await Deno.makeTempFile({
+                        prefix: "test_pem_bundler_",
+                        suffix: ".pem",
+                        dir: tempDirPath
+                })
+
+                await Deno.writeTextFile(tempFilePath, value)
+
+                result.push(tempFilePath)
+        }
+
+        return result
+}
+
+export const GET: RequestHandler = async ({ url }) => {
         const key = validatePEMServer("key", url) 
         const certificate = validatePEMServer("certificate", url) 
 
-	return json({certificate, key});
+        const data = await createTempFiles([key, certificate])
+
+	return json(data)
 };
