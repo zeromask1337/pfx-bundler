@@ -1,0 +1,27 @@
+.
+├── deno.lock
+├── eslint.config.js
+├── package.json
+├── project_structure.txt
+├── README.md
+├── src
+│   ├── app.d.ts
+│   ├── app.html
+│   ├── lib
+│   │   ├── components
+│   │   │   └── Textarea.svelte
+│   │   ├── index.ts
+│   │   └── validatePEM.ts
+│   └── routes
+│       ├── +layout.svelte
+│       ├── +page.svelte
+│       └── api
+│           └── bundle
+│               └── +server.ts
+├── static
+│   └── favicon.png
+├── svelte.config.js
+├── tsconfig.json
+└── vite.config.ts
+
+8 directories, 17 files
