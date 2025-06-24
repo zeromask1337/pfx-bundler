@@ -22,7 +22,7 @@ async function createTempFiles(values: string[]) { const result: string[] = []
 
         for (const value of values) {
                 const tempFilePath = await Deno.makeTempFile({
-                        prefix: "test_pem_bundler_",
+                        prefix: `test_pem_bundler-`,
                         suffix: ".pem",
                         dir: tempDirPath
                 })
