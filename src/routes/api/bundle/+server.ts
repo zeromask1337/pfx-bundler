@@ -50,7 +50,9 @@ export const GET: RequestHandler = async ({ url }) => {
                         "-inkey",
                         keyFilePath,
                         "-in",
-                        certificateFilePath
+                        certificateFilePath,
+                        "-passout",
+                        "pass:"
                 ]
         })
 
