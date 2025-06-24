@@ -1,17 +1,6 @@
-import validatePEM, { type PEMType } from '$lib/validatePEM';
-import { error, json } from '@sveltejs/kit';
+import { PEMService } from '$lib/services/PEMService';
+import { json } from '@sveltejs/kit';
 import type { RequestHandler } from '@sveltejs/kit';
-
-function validatePEMServer(value: PEMType, url: URL) {
-	const data = url.searchParams.get(value) ?? error(400, `Couldn't read ${value}`)
-        const {invalid, error: valueError} = validatePEM(data, value)
-        if (invalid) {
-                console.log("Errored on: ", data)
-                error(400, `Invalid ${value} syntax: ${valueError}`)
-        }
-
-        return data
-}
 
 // TODO: Extract everything related to PEM to class
 async function createTempFiles(values: string[]) { const result: string[] = []
@@ -37,8 +26,8 @@ async function createTempFiles(values: string[]) { const result: string[] = []
 }
 
 export const GET: RequestHandler = async ({ url }) => {
-        const key = validatePEMServer("key", url) 
-        const certificate = validatePEMServer("certificate", url) 
+        const key = PEMService.validateOnServer("key", url) 
+        const certificate = PEMService.validateOnServer("certificate", url) 
 
         const [keyFilePath, certificateFilePath] = await createTempFiles([key, certificate])
 

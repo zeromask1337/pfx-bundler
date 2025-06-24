@@ -1,5 +1,5 @@
 <script lang="ts">
-        import validatePEM, { type PEMType } from "$lib/validatePEM";
+        import { PEMService, type PEMType } from "$lib/services/PEMService";
 
         interface Props {
                 value: string;
@@ -8,7 +8,7 @@
 
         let { value, name }: Props = $props();
 
-        let status = $derived(validatePEM(value, name));
+        let status = $derived(PEMService.validate(value, name));
 </script>
 
 <label
