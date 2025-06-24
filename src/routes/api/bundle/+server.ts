@@ -1,7 +1,6 @@
 import { FileService } from '$lib/services/FileService';
 import { PEMService } from '$lib/services/PEMService';
-import { json } from '@sveltejs/kit';
-import type { RequestHandler } from '@sveltejs/kit';
+import {json, type RequestHandler } from '@sveltejs/kit';
 
 export const GET: RequestHandler = async ({ url }) => {
         const key = PEMService.validateOnServer("key", url) 
