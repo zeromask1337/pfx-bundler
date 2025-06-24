@@ -46,12 +46,20 @@ export const GET: RequestHandler = async ({ url }) => {
                 args: [
                         "pkcs12",
                         "-export",
+
+                        // Output file path
                         "-out",
                         "/tmp/test_bunlder_name.pfx",
+
+                        // Key file path
                         "-inkey",
                         keyFilePath,
+
+                        // Certificate file path
                         "-in",
                         certificateFilePath,
+
+                        // Password for output file
                         "-passout",
                         "pass:"
                 ]
