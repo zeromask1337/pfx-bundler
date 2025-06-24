@@ -30,5 +30,9 @@ export const GET: RequestHandler = async ({ url }) => {
 
         const {code, stdout, stderr} = await command.output()
 
-	return json({code, stdout: new TextDecoder().decode(stdout), stderr: new TextDecoder().decode(stderr)})
+	return json({
+                code,
+                stdout: new TextDecoder().decode(stdout),
+                stderr: new TextDecoder().decode(stderr)
+        })
 };
