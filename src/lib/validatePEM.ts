@@ -3,8 +3,9 @@ interface ValidationResult {
         error: string | null;
 }
 
+export type PEMType = "key" | "certificate"
 
-export default function validatePEM(value: string): ValidationResult {
+export default function validatePEM(value: string, type: PEMType): ValidationResult {
         if (value === "") return { invalid: null, error: null };
 
         if (typeof value !== "string") {
@@ -18,15 +19,23 @@ export default function validatePEM(value: string): ValidationResult {
         const headerMatch = lines[0].match(
                 /^-----BEGIN ([A-Z\s]+)-----$/,
         );
+
         if (!headerMatch) {
                 return {
                         invalid: true,
                         error: "Invalid header format",
                 };
         }
+        console.log("This is header match", headerMatch)
+        if (!headerMatch[1].includes(type.toUpperCase())) {
+                return {
+                        invalid: true,
+                        error: `Header title should correspond to type ${type}`
+                }
+        }
 
-        const type = headerMatch[1];
-        const expectedFooter = `-----END ${type}-----`;
+        const headerType = headerMatch[1];
+        const expectedFooter = `-----END ${headerType}-----`;
 
         // Check footer
         if (lines[lines.length - 1] !== expectedFooter) {

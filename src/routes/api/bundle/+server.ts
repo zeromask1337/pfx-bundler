@@ -1,10 +1,10 @@
-import validatePEM from '$lib/validatePEM';
+import validatePEM, { type PEMType } from '$lib/validatePEM';
 import { error, json } from '@sveltejs/kit';
 import type { RequestHandler } from '@sveltejs/kit';
 
-function validatePEMServer(value: string, url: URL) {
+function validatePEMServer(value: PEMType, url: URL) {
 	const data = url.searchParams.get(value) ?? error(400, `Couldn't read ${value}`)
-        const {invalid, error: valueError} = validatePEM(data)
+        const {invalid, error: valueError} = validatePEM(data, value)
         if (invalid) {
                 console.log("Errored on: ", data)
                 error(400, `Invalid ${value} syntax: ${valueError}`)
@@ -13,6 +13,7 @@ function validatePEMServer(value: string, url: URL) {
         return data
 }
 
+// TODO: Extract everything related to PEM to class
 async function createTempFiles(values: string[]) { const result: string[] = []
 
         const tempDirPath = await Deno.makeTempDir({

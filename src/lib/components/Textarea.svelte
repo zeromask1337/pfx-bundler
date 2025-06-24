@@ -1,8 +1,14 @@
 <script lang="ts">
-        import validatePEM from "$lib/validatePEM";
-        let { name, value } = $props();
+        import validatePEM, { type PEMType } from "$lib/validatePEM";
 
-        let status = $derived(validatePEM(value));
+        interface Props {
+                value: string;
+                name: PEMType;
+        }
+
+        let { value, name }: Props = $props();
+
+        let status = $derived(validatePEM(value, name));
 </script>
 
 <label
