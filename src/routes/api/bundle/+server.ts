@@ -15,20 +15,16 @@ export const GET: RequestHandler = async ({ url }) => {
                         "-export",
 
                         // Output file path
-                        "-out",
-                        "/tmp/test_bunlder_name.pfx",
+                        "-out", "/tmp/test_bunlder_name.pfx",
 
                         // Key file path
-                        "-inkey",
-                        keyFilePath,
+                        "-inkey", keyFilePath,
 
                         // Certificate file path
-                        "-in",
-                        certificateFilePath,
+                        "-in", certificateFilePath,
 
                         // Password for output file
-                        "-passout",
-                        "pass:"
+                        "-passout", "pass:"
                 ]
         })
 
