@@ -1,35 +1,13 @@
+import { FileService } from '$lib/services/FileService';
 import { PEMService } from '$lib/services/PEMService';
 import { json } from '@sveltejs/kit';
 import type { RequestHandler } from '@sveltejs/kit';
-
-// TODO: Extract everything related to PEM to class
-async function createTempFiles(values: string[]) { const result: string[] = []
-
-        const tempDirPath = await Deno.makeTempDir({
-                prefix: "bundler_",
-                dir: '/tmp'
-        })
-
-        for (const value of values) {
-                const tempFilePath = await Deno.makeTempFile({
-                        prefix: `test_pem_bundler-`,
-                        suffix: ".pem",
-                        dir: tempDirPath
-                })
-
-                await Deno.writeTextFile(tempFilePath, value)
-
-                result.push(tempFilePath)
-        }
-
-        return result
-}
 
 export const GET: RequestHandler = async ({ url }) => {
         const key = PEMService.validateOnServer("key", url) 
         const certificate = PEMService.validateOnServer("certificate", url) 
 
-        const [keyFilePath, certificateFilePath] = await createTempFiles([key, certificate])
+        const [keyFilePath, certificateFilePath] = await FileService.createTempFiles([key, certificate])
 
         const command = new Deno.Command("openssl", {
                 args: [
