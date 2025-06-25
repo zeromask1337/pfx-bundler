@@ -1,38 +1,14 @@
-# sv
+# Usage
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+I'll explain how I use it. 
 
-## Creating a project
+Your cloudflare account has client certificate section, even on free tier. You can find it in SSL/TLS->Client Certificates->Create Certificate.
+![pfx-bundler instructions](https://github.com/user-attachments/assets/7232384a-5692-4b74-91c2-092807f466b9)
 
-If you're seeing this, you've probably already done this step. Congrats!
+When you create certificate you are given CSR and private key. Paste them in bundler form and, optionally, you can set filename.
 
-```bash
-# create a new project in the current directory
-npx sv create
 
-# create a new project in my-app
-npx sv create my-app
-```
+https://github.com/user-attachments/assets/371fc7f0-3212-4d90-8213-8a9f28d72ec1
 
-## Developing
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
-
-```bash
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
-
-## Building
-
-To create a production version of your app:
-
-```bash
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+After that you will be given you bundled pfx file.
