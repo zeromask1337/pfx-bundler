@@ -24,7 +24,7 @@ export class PEMService {
                                 error: "Invalid header format",
                         };
                 }
-                console.log("This is header match", headerMatch)
+
                 if (!headerMatch[1].includes(type.toUpperCase())) {
                         return {
                                 invalid: true,
