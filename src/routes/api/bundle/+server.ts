@@ -7,16 +7,16 @@ export const GET: RequestHandler = async ({ url }) => {
         const certificate = PEMService.validateOnServer("certificate", url) 
 
         const [keyFilePath, certificateFilePath] = await FileService.createTempFiles([key, certificate])
-        const filename = url.searchParams.get("filename") || "client-cert" 
+        const filename = url.searchParams.get("filename") || "client-cert"
+        const outputPath = `/tmp/${filename}.pfx`
 
-        console.log("My filename: ", filename)
         const command = new Deno.Command("openssl", {
                 args: [
                         "pkcs12",
                         "-export",
 
                         // Output file path
-                        "-out", `/tmp/${filename}.pfx`,
+                        "-out", outputPath,
 
                         // Key file path
                         "-inkey", keyFilePath,
@@ -31,9 +31,23 @@ export const GET: RequestHandler = async ({ url }) => {
 
         const {code, stdout, stderr} = await command.output()
 
-	return json({
+        console.info({
                 code,
                 stdout: new TextDecoder().decode(stdout),
-                stderr: new TextDecoder().decode(stderr)
+                stderr: new TextDecoder().decode(stderr),
         })
+
+        // Read file and return as response
+        const fileData = await Deno.readFile(outputPath);
+        
+        // Cleanup temp files
+        await FileService.cleanup([keyFilePath, certificateFilePath, outputPath]);
+
+        return new Response(fileData, {
+            headers: {
+                'Content-Type': 'application/x-pkcs12',
+                'Content-Disposition': `attachment; filename="${filename}"`,
+                'Content-Length': fileData.length.toString()
+            }
+        });
 };
