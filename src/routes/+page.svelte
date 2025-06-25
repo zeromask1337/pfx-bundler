@@ -4,6 +4,7 @@
         const fields = $state({
                 certificate: "",
                 key: "",
+                filename: "",
         });
 </script>
 
@@ -13,6 +14,13 @@
 <form action="/api/bundle">
         <Textarea name="certificate" value={fields.certificate} />
         <Textarea name="key" value={fields.key} />
+        <input
+                value={fields.filename}
+                type="text"
+                name="filename"
+                placeholder="client_cert.pfx"
+                aria-label="filename"
+        />
 
         <input type="submit" value="Bundle" />
 </form>

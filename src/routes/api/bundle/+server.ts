@@ -14,7 +14,7 @@ export const GET: RequestHandler = async ({ url }) => {
                         "-export",
 
                         // Output file path
-                        "-out", "/tmp/test_bunlder_name.pfx",
+                        "-out", url.searchParams.get("filename") ?? "/tmp/client-cert.pfx",
 
                         // Key file path
                         "-inkey", keyFilePath,
