@@ -18,7 +18,7 @@
                 value={fields.filename}
                 type="text"
                 name="filename"
-                placeholder="client_cert.pfx"
+                placeholder="client_cert"
                 aria-label="filename"
         />
 

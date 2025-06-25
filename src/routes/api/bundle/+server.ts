@@ -7,14 +7,16 @@ export const GET: RequestHandler = async ({ url }) => {
         const certificate = PEMService.validateOnServer("certificate", url) 
 
         const [keyFilePath, certificateFilePath] = await FileService.createTempFiles([key, certificate])
+        const filename = url.searchParams.get("filename") || "client-cert" 
 
+        console.log("My filename: ", filename)
         const command = new Deno.Command("openssl", {
                 args: [
                         "pkcs12",
                         "-export",
 
                         // Output file path
-                        "-out", url.searchParams.get("filename") ?? "/tmp/client-cert.pfx",
+                        "-out", `/tmp/${filename}.pfx`,
 
                         // Key file path
                         "-inkey", keyFilePath,
