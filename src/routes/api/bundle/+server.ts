@@ -1,12 +1,16 @@
 import { FileService } from '$lib/services/FileService';
 import { PEMService } from '$lib/services/PEMService';
-import {json, type RequestHandler } from '@sveltejs/kit';
+import {type RequestHandler } from '@sveltejs/kit';
 
 export const GET: RequestHandler = async ({ url }) => {
         const key = PEMService.validateOnServer("key", url) 
         const certificate = PEMService.validateOnServer("certificate", url) 
 
-        const [keyFilePath, certificateFilePath] = await FileService.createTempFiles([key, certificate])
+        const {
+                key: keyFilePath,
+                certificate: certificateFilePath,
+                directory
+        } = await FileService.createTempFiles({key, certificate})
         const filename = url.searchParams.get("filename") || "client-cert"
         const outputPath = `/tmp/${filename}.pfx`
 
@@ -41,7 +45,7 @@ export const GET: RequestHandler = async ({ url }) => {
         const fileData = await Deno.readFile(outputPath);
         
         // Cleanup temp files
-        await FileService.cleanup([keyFilePath, certificateFilePath, outputPath]);
+        await FileService.cleanup(directory);
 
         return new Response(fileData, {
             headers: {
