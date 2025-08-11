@@ -1,11 +1,11 @@
 <script lang="ts">
-        import Textarea from "$lib/components/Textarea.svelte";
+import Textarea from '$lib/components/Textarea.svelte';
 
-        const fields = $state({
-                certificate: "",
-                key: "",
-                filename: "",
-        });
+const fields = $state({
+        certificate: '',
+        key: '',
+        filename: '',
+});
 </script>
 
 <h1>PEM Builder</h1>
@@ -19,14 +19,13 @@
                 type="text"
                 name="filename"
                 placeholder="client_cert"
-                aria-label="filename"
-        />
+                aria-label="filename" />
 
         <input type="submit" value="Bundle" />
 </form>
 
 <style>
-        form {
-                width: min(100%, 600px);
-        }
+form {
+        width: min(100%, 600px);
+}
 </style>

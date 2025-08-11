@@ -39,11 +39,11 @@
 </label>
 
 <style>
-        label {
-                margin-bottom: 50px;
-        }
+label {
+        margin-bottom: 50px;
+}
 
-        textarea {
-                min-height: 300px;
-        }
+textarea {
+        min-height: 300px;
+}
 </style>
