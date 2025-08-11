@@ -1400,7 +1400,8 @@
         "npm:typescript-eslint@^8.20.0",
         "npm:typescript-svelte-plugin@~0.3.48",
         "npm:typescript@5",
-        "npm:vite@^6.2.6"
+        "npm:vite@^6.2.6",
+        "npm:zod@^4.0.17"
       ]
     }
   }
