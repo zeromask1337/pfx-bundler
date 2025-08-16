@@ -3,35 +3,39 @@ import Textarea from '$lib/components/Textarea.svelte';
 import { pemSchema } from '$lib/validators/pem';
 
 const fields = $state({
-        certificate: '',
-        key: '',
+        certificate: {
+                value: '',
+                schema: pemSchema('CERTIFICATE'),
+        },
+        key: {
+                value: '',
+                schema: pemSchema('PRIVATE_KEY'),
+        },
         filename: '',
 });
 
-const certificateSchema = pemSchema('CERTIFICATE');
-const keySchema = pemSchema('PRIVATE_KEY');
+const certificateStatus = $derived.by(parseField('certificate'));
+const keyStatus = $derived.by(parseField('key'));
 
-const certificateStatus = $derived.by(() => {
-        if (fields.certificate === '') return undefined;
-        const result = certificateSchema.safeParse(fields.certificate);
+function parseField(type: 'certificate' | 'key') {
+        return () => {
+                if (fields[type].value === '') return;
 
-        if (!result.success) {
-                return result.error.message;
-        } else {
-                return false;
-        }
-});
+                const result = fields[type].schema.safeParse(fields.key);
 
-const keyStatus = $derived.by(() => {
-        if (fields.key === '') return undefined;
-        const result = keySchema.safeParse(fields.key);
-
-        if (!result.success) {
-                return result.error.message;
-        } else {
-                return false;
-        }
-});
+                if (!result.success) {
+                        return {
+                                invalid: true,
+                                message: result.error.message,
+                        };
+                } else {
+                        return {
+                                invalid: false,
+                                message: `${type} looks good`,
+                        };
+                }
+        };
+}
 </script>
 
 <h1>PEM Builder</h1>
@@ -40,11 +44,11 @@ const keyStatus = $derived.by(() => {
 <form action="/api/bundle">
         <Textarea
                 name="CERTIFICATE"
-                bind:value={fields.certificate}
+                bind:value={fields.certificate.value}
                 error={certificateStatus} />
         <Textarea
                 name="PRIVATE_KEY"
-                bind:value={fields.key}
+                bind:value={fields.key.value}
                 error={keyStatus} />
         <input
                 value={fields.filename}

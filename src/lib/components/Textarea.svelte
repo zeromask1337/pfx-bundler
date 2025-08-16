@@ -4,10 +4,15 @@ import type { PEMHeader } from '$lib/validators/pem';
 interface Props {
         value: string;
         name: PEMHeader;
-        error: string | undefined | null;
+        error:
+                | {
+                          invalid: boolean;
+                          message: string;
+                  }
+                | undefined;
 }
 
-let { value = $bindable(), name, error = null }: Props = $props();
+let { value = $bindable(), name, error }: Props = $props();
 </script>
 
 <label
@@ -15,7 +20,7 @@ let { value = $bindable(), name, error = null }: Props = $props();
                 bind:value
                 {name}
                 placeholder="Paste your {name}"
-                aria-invalid={error}
+                aria-invalid={error?.invalid ?? null}
                 aria-describedby={`${name}-helper`}
                 required></textarea>
 
