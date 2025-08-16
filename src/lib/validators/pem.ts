@@ -12,6 +12,8 @@ export const pemSchema = (type: PEMHeader) =>
     .string()
     .trim()
     .superRefine((value, ctx) => {
+      if (value === "") return
+
       const lines = value.split(/\r?\n/);
 
       // Header check
