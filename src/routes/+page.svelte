@@ -21,12 +21,14 @@ function parseField(type: 'certificate' | 'key') {
         return () => {
                 if (fields[type].value === '') return;
 
-                const result = fields[type].schema.safeParse(fields.key);
+                const result = fields[type].schema.safeParse(
+                        fields[type].value,
+                );
 
                 if (!result.success) {
                         return {
                                 invalid: true,
-                                message: result.error.message,
+                                message: result.error.issues[0].message,
                         };
                 } else {
                         return {

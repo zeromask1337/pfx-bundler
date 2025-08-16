@@ -25,7 +25,7 @@ let { value = $bindable(), name, error }: Props = $props();
                 required></textarea>
 
         <small id={`${name}-helper`}>
-                {error || `${name} looks good!`}
+                {error?.message || `${name} looks good!`}
         </small>
         <button
                 type="button"
