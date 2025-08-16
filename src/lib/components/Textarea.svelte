@@ -1,14 +1,13 @@
 <script lang="ts">
-        import { PEMService, type PEMType } from "$lib/services/PEMService";
+import type { PEMHeader } from '$lib/validators/pem';
 
-        interface Props {
-                value: string;
-                name: PEMType;
-        }
+interface Props {
+        value: string;
+        name: PEMHeader;
+        error: string | undefined | null;
+}
 
-        let { value, name }: Props = $props();
-
-        let status = $derived(PEMService.validate(value, name));
+let { value = $bindable(), name, error = null }: Props = $props();
 </script>
 
 <label
@@ -16,17 +15,12 @@
                 bind:value
                 {name}
                 placeholder="Paste your {name}"
-                aria-invalid={status.invalid}
+                aria-invalid={error}
                 aria-describedby={`${name}-helper`}
-                required
-        ></textarea>
+                required></textarea>
 
         <small id={`${name}-helper`}>
-                {status.invalid === null
-                        ? null
-                        : status.invalid
-                          ? status.error
-                          : `${name} looks good!`}
+                {error || `${name} looks good!`}
         </small>
         <button
                 type="button"
@@ -34,8 +28,7 @@
                         navigator.clipboard
                                 .readText()
                                 .then((newValue) => (value = newValue))}
-                >Paste</button
-        >
+                >Paste</button>
 </label>
 
 <style>
