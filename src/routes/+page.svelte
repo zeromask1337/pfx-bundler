@@ -43,7 +43,7 @@ function parseField(type: 'certificate' | 'key') {
 <h1>PEM Builder</h1>
 <p>Pass key and certificate to bundle them into PFX</p>
 
-<form action="/api/bundle">
+<form method="POST" action="/api/bundle">
         <Textarea
                 name="CERTIFICATE"
                 bind:value={fields.certificate.value}

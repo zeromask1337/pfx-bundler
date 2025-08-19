@@ -1,10 +1,20 @@
+import {fail, type RequestHandler } from '@sveltejs/kit';
+import { pemSchema } from '../../../lib/validators/pem';
 import { FileService } from '$lib/services/FileService';
-import { PEMService } from '$lib/services/PEMService';
-import {type RequestHandler } from '@sveltejs/kit';
 
-export const GET: RequestHandler = async ({ url }) => {
-        const key = PEMService.validateOnServer("key", url) 
-        const certificate = PEMService.validateOnServer("certificate", url) 
+export const GET: RequestHandler = async ({ url, request }) => {
+        const data = await request.formData()
+        const certificate = data.get('certificate')
+        const key = data.get('key')
+
+        if (!key) return fail(400, {key, missing: true}) 
+        if (!certificate) return fail(400, {certificate, missing: true}) 
+
+        const keyResult = pemSchema('PRIVATE_KEY').safeParse(key)
+        if (!keyResult.success) return fail(400, {key, invalid: true})
+
+        const certificateResult = pemSchema('CERTIFICATE').safeParse(certificate)
+        if (!certificateResult.success) return fail(400, {key, invalid: true})
 
         const {
                 key: keyFilePath,
